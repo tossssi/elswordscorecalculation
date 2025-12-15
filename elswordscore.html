@@ -40,7 +40,7 @@
             backdrop-filter: blur(8px);
             width: 100%;
             max-width: 950px;
-            height: 100%; /* 高さを画面いっぱいに */
+            height: 100%; 
             max-height: 98vh;
             display: flex;
             flex-direction: column;
@@ -94,12 +94,11 @@
             margin-bottom: 5px;
             overflow-y: auto; /* ここだけスクロールさせる */
             flex-grow: 1;
-            padding-right: 5px; /* スクロールバーとの被り防止 */
+            padding-right: 5px; 
             
-            /* スクロールバーのデザイン */
             scrollbar-width: thin;
             scrollbar-color: rgba(0, 210, 255, 0.5) rgba(0,0,0,0.2);
-            -webkit-overflow-scrolling: touch; /* スマホでの慣性スクロール */
+            -webkit-overflow-scrolling: touch; 
         }
         .grid-container::-webkit-scrollbar {
             width: 6px;
@@ -120,7 +119,7 @@
             padding: 5px 10px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            height: 60px; /* タップしやすい高さ */
+            height: 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -156,12 +155,10 @@
             transition: all 0.3s ease;
             font-family: inherit;
         }
-        /* optionの色指定（白飛びバグ対策） */
         option {
             background-color: #222;
             color: #fff;
         }
-        
         select:hover, select:focus {
             border-color: #00d2ff;
             box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
@@ -184,7 +181,7 @@
             text-shadow: 1px 1px 2px #000;
         }
 
-        /* ボタンエリア */
+        /* ボタンエリア（配置変更に伴う調整） */
         .button-area {
             display: flex;
             justify-content: space-between;
@@ -192,7 +189,10 @@
             gap: 10px;
             height: 60px;
             padding: 0;
-            margin-bottom: 8px;
+            margin-top: 10px; /* 少し隙間を空ける */
+            margin-bottom: 10px;
+            flex-shrink: 0; /* 潰れないようにする */
+            width: 100%; /* 横幅いっぱいに */
         }
 
         button.calc-btn {
@@ -244,7 +244,7 @@
         /* 合計スコアエリア */
         .total-section {
             text-align: center;
-            margin: 5px 0 0 0;
+            margin: 0;
             background: rgba(0, 10, 20, 0.6);
             padding: 10px;
             border-radius: 12px;
@@ -263,7 +263,7 @@
             align-items: baseline;
             justify-content: center;
             gap: 5px;
-            flex-wrap: wrap; /* 画面が狭すぎるときに折り返す */
+            flex-wrap: wrap;
         }
 
         .total-score {
@@ -289,7 +289,7 @@
             text-align: center;
             width: 100%;
             letter-spacing: 1px;
-            word-break: keep-all; /* 勝手な改行を防ぐ */
+            word-break: keep-all;
         }
 
         /* フッター */
@@ -311,14 +311,14 @@
             transition: color 0.3s;
         }
 
-        /* ★★★ スマホ用レスポンシブ設定（ここが重要！） ★★★ */
+        /* スマホ用レスポンシブ設定 */
         @media (max-width: 768px) {
             .grid-container {
-                grid-template-columns: 1fr; /* 1列にする */
+                grid-template-columns: 1fr;
                 gap: 10px;
             }
             .elsword-title {
-                font-size: 2rem; /* ロゴを少し小さく */
+                font-size: 2rem;
             }
             h1 {
                 font-size: 1rem;
@@ -326,13 +326,11 @@
             .container {
                 padding: 10px 15px;
             }
-            .input-group {
-                height: 55px; /* 高さを微調整 */
-            }
+            /* スマホでボタンが押しやすいように少し調整 */
             .button-area {
-                height: 55px;
+                margin-top: 5px;
+                margin-bottom: 5px;
             }
-            /* 限界超えの文字がはみ出ないように調整 */
             .total-score {
                 font-size: 2.2rem !important;
             }
@@ -455,11 +453,6 @@
                     </select>
                     <span class="score-display"><span id="score6">-</span> 点</span>
                 </div>
-            </div>
-
-            <div class="button-area">
-                <button class="calc-btn" onclick="calculateAll()">計算する</button>
-                <button class="reset-btn" onclick="resetAll()">初期化する</button>
             </div>
         </div>
 
@@ -586,6 +579,11 @@
         </div>
     </div>
 
+    <div class="button-area">
+        <button class="calc-btn" onclick="calculateAll()">計算する</button>
+        <button class="reset-btn" onclick="resetAll()">初期化する</button>
+    </div>
+
     <div class="total-section">
         <div class="total-wrapper">
             <span class="total-score" id="totalScore">0</span> <span class="total-unit">点</span>
@@ -645,14 +643,10 @@
             totalScoreEl.textContent = "限界超え";
             totalUnitEl.textContent = "点ねん";
             
-            // 限界超えスタイリング：数字と同じ見た目にする
             totalUnitEl.style.fontSize = "inherit"; 
             totalUnitEl.style.fontWeight = "inherit";
             totalUnitEl.style.color = "inherit";
             
-            // スマホ対応のフォントサイズ調整はCSS側で行うため、JSでの指定を削除またはクラス切り替えが理想だが
-            // ここではシンプルに inline style をリセットしつつ、文字を入れる
-            // レスポンシブでサイズ変えるため、JSで固定サイズを入れるのをやめる
             totalScoreEl.style.fontSize = ""; 
             totalUnitEl.style.fontSize = "";
         } else {
